@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UserRepository_1 = require("../repository/UserRepository");
 class UserService {
     get() {
-        return UserRepository_1.default.find({});
+        return UserRepository_1.default.find({}).populate(['SensorDevices']);
     }
     getById(_id) {
         return UserRepository_1.default.findById(_id);
