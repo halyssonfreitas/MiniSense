@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 const SensorDataSchema = new Schema({
     timestamp: {
         type: Date,
+        required: true,
         default: Date.now
     },
     // Avaliar se Number se adequa a double

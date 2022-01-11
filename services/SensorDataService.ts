@@ -8,6 +8,7 @@ class SensorDataService {
         return SensorDataRepository.findById(_id)
     }
     create(dataStream) {
+        console.log("SensorDataService - create()")
         return SensorDataRepository.create(dataStream)
     }
     update(_id, dataStream) {

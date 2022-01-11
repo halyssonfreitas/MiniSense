@@ -9,6 +9,7 @@ class SensorDataService {
         return SensorDataRepository_1.default.findById(_id);
     }
     create(dataStream) {
+        console.log("SensorDataService - create()");
         return SensorDataRepository_1.default.create(dataStream);
     }
     update(_id, dataStream) {

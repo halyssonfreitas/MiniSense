@@ -1,6 +1,7 @@
 import * as HttpStatus from "http-status";
 
 import SensorDataService from "../services/SensorDataService";
+import DataStreamService from "../services/DataStreamService";
 import Helper from "../infra/Helper";
 
 
@@ -19,12 +20,24 @@ class SensorDataController {
         .catch(error => console.error.bind(console, `NewsController - get() : ${error}`))
     }
     create(req, res) {
-        let news = req.body;
+        let sd = req.body;
+        let id = req.body.DataStream;
 
-        SensorDataService.create(news)
+        SensorDataService.create(sd)
         // TO-DO refazer retornando o id da news
-        .then(news => Helper.sendResponse(res, HttpStatus.OK, "Notícia cadastrada com sucesso!"))
-        .catch(error => console.error.bind(console, `NewsController - create() : ${error}`))
+        .then( async sd => {
+            let ds = await DataStreamService.getById(id)
+            // dssd - Adivindo de DataStreamService a lista de SensorData
+            let dssd = [sd._id.toString()]
+
+            ds.SensorDatas.map(async x => {
+                dssd.push(x.toString())
+            })
+            await DataStreamService.update(id, {SensorDatas: dssd})
+            console.log("CHEGOU AQUI")
+            await Helper.sendResponse(res, HttpStatus.OK, "SensorData cadastrado com sucesso!")
+        })
+        .catch(error => console.error.bind(console, `SensorDataController - create() : ${error}`))
     }
     update(req, res) {
         const _id = req.params.id
