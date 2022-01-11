@@ -8,12 +8,13 @@ class UserService {
     getById(_id) {
         return UserRepository_1.default.findById(_id);
     }
-    create(dataStream) {
-        console.log("UserService - create() : " + dataStream);
-        return UserRepository_1.default.create(dataStream);
+    create(user) {
+        console.log("UserService - create() : " + user);
+        return UserRepository_1.default.create(user);
     }
-    update(_id, dataStream) {
-        return UserRepository_1.default.findByIdAndUpdate(_id, dataStream);
+    update(_id, user) {
+        console.log(`UserService - update() : _id ${_id} - user ${user}`);
+        return UserRepository_1.default.findByIdAndUpdate(_id, user);
     }
     delete(_id) {
         return UserRepository_1.default.findByIdAndDelete(_id);

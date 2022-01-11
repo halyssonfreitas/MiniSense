@@ -7,12 +7,13 @@ class UserService {
     getById(_id) {
         return UserRepository.findById(_id)
     }
-    create(dataStream) {
-        console.log("UserService - create() : " + dataStream)
-        return UserRepository.create(dataStream)
+    create(user) {
+        console.log("UserService - create() : " + user)
+        return UserRepository.create(user)
     }
-    update(_id, dataStream) {
-        return UserRepository.findByIdAndUpdate(_id, dataStream)
+    update(_id, user) {
+        console.log(`UserService - update() : _id ${_id} - user ${user}`)
+        return UserRepository.findByIdAndUpdate(_id, user)
     }
     delete(_id) {
         return UserRepository.findByIdAndDelete(_id)
