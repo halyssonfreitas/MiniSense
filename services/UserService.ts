@@ -2,7 +2,7 @@ import UserRepository from "../repository/UserRepository";
 
 class UserService {
     get() {
-        return UserRepository.find({});
+        return UserRepository.find({}).populate(['SensorDevices']);
     }
     getById(_id) {
         return UserRepository.findById(_id)
