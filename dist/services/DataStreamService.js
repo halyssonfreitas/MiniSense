@@ -23,17 +23,11 @@ class DataStreamService {
     create(dataStreamDTO) {
         return __awaiter(this, void 0, void 0, function* () {
             let sd = undefined;
-            try {
-                sd = yield SensorDeviceService_1.default.getById(dataStreamDTO.SensorDevice);
-            }
-            catch (error) {
+            if ((sd = yield SensorDeviceService_1.default.getById(dataStreamDTO.SensorDevice)) === null) {
                 throw new Error("SensorDevice doens't exist!");
             }
             let mu = undefined;
-            try {
-                mu = yield MeasurementUnitService_1.default.getById(dataStreamDTO.unitId);
-            }
-            catch (error) {
+            if ((mu = yield MeasurementUnitService_1.default.getById(dataStreamDTO.unitId)) === null) {
                 throw new Error("MeasurementUnit doens't exist!");
             }
             let dataStream = yield DataStreamRepository_1.default.create({

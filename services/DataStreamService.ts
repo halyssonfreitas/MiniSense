@@ -16,16 +16,12 @@ class DataStreamService {
     async create(dataStreamDTO: IDataStreamDTO) {
 
         let sd = undefined
-        try {
-            sd = await SensorDeviceService.getById(dataStreamDTO.SensorDevice)
-        } catch (error) {
+        if ((sd = await SensorDeviceService.getById(dataStreamDTO.SensorDevice)) === null) {
             throw new Error("SensorDevice doens't exist!")
         }
 
         let mu = undefined
-        try {
-            mu = await MeasurementUnitService.getById(dataStreamDTO.unitId)
-        } catch (error) {
+        if ((mu = await MeasurementUnitService.getById(dataStreamDTO.unitId)) === null) {
             throw new Error("MeasurementUnit doens't exist!")
         }
 

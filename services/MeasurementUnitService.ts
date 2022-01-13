@@ -7,11 +7,17 @@ class MeasurementUnitService {
     getById(_id) {
         return MeasurementUnitRepository.findById(_id)
     }
-    create(dataStream) {
-        return MeasurementUnitRepository.create(dataStream)
+    async create(measurementUnitDTO) {
+        let measurementUnit = await MeasurementUnitRepository.create(measurementUnitDTO)
+        let mu = {
+            id : measurementUnit.id,
+            symbol : measurementUnit.symbol,
+            description : measurementUnit.description
+        }
+        return mu
     }
-    update(_id, dataStream) {
-        return MeasurementUnitRepository.findByIdAndUpdate(_id, dataStream)
+    update(_id, measurementUnitDTO) {
+        return MeasurementUnitRepository.findByIdAndUpdate(_id, measurementUnitDTO)
     }
     delete(_id) {
         return MeasurementUnitRepository.findByIdAndDelete(_id)

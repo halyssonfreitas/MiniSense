@@ -24,10 +24,7 @@ class SensorDeviceService {
             sensorDeviceDTO.key = (0, uuidv4_1.uuid)();
             // pega o user que o SensorDevice se referência em seu cadastro
             let user = undefined;
-            try {
-                user = yield UserService_1.default.getById(sensorDeviceDTO.User);
-            }
-            catch (error) {
+            if ((user = yield UserService_1.default.getById(sensorDeviceDTO.User)) === null) {
                 throw new Error("User doens't exist!");
             }
             const sensorDevice = yield SensorDeviceRepository_1.default.create(sensorDeviceDTO);

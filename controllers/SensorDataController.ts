@@ -21,23 +21,15 @@ class SensorDataController {
     }
     create(req, res) {
         let sd = req.body;
-        let id = req.body.DataStream;
 
         SensorDataService.create(sd)
-        // TO-DO refazer retornando o id da news
         .then( async sd => {
-            let ds = await DataStreamService.getById(id)
-            // dssd - Adivindo de DataStreamService a lista de SensorData
-            let dssd = [sd._id.toString()]
-
-            ds.SensorDatas.map(async x => {
-                dssd.push(x.toString())
-            })
-            await DataStreamService.update(id, {SensorDatas: dssd})
-            console.log("CHEGOU AQUI")
-            await Helper.sendResponse(res, HttpStatus.OK, "SensorData cadastrado com sucesso!")
+            await Helper.sendResponse(res, HttpStatus.OK, sd)
         })
-        .catch(error => console.error.bind(console, `SensorDataController - create() : ${error}`))
+        .catch(error => {
+            console.log(`SensorData - create() : ${error}`)
+            Helper.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
+        })
     }
     update(req, res) {
         const _id = req.params.id

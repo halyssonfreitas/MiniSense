@@ -16,9 +16,7 @@ class SensorDeviceService {
 
         // pega o user que o SensorDevice se referência em seu cadastro
         let user = undefined
-        try {
-            user = await UserService.getById(sensorDeviceDTO.User)
-        } catch (error) {
+        if  ((user = await UserService.getById(sensorDeviceDTO.User)) === null){
             throw new Error("User doens't exist!")
         }
 

@@ -16,11 +16,14 @@ class MeasurementUnitController {
             .catch(error => console.error.bind(console, `NewsController - get() : ${error}`));
     }
     create(req, res) {
-        let news = req.body;
-        MeasurementUnitService_1.default.create(news)
+        let mu = req.body;
+        MeasurementUnitService_1.default.create(mu)
             // TO-DO refazer retornando o id da news
-            .then(news => Helper_1.default.sendResponse(res, HttpStatus.OK, "Notícia cadastrada com sucesso!"))
-            .catch(error => console.error.bind(console, `NewsController - create() : ${error}`));
+            .then(mu => Helper_1.default.sendResponse(res, HttpStatus.OK, mu))
+            .catch(error => {
+            console.log(`MeasurementUnit - create() : ${error}`);
+            Helper_1.default.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
+        });
     }
     update(req, res) {
         const _id = req.params.id;
