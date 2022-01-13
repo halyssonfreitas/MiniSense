@@ -1,0 +1,183 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API MiniSense",
+    "description": "Essa API é um subconjunto da API Sense",
+    "termsOfService": "http://google.com",
+    "contact": {
+      "email": "halyssonfreitas@gmail.com"
+    },
+    "version": "1.0.0",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "http://swagger.io"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3050/api/v1",
+      "description": "API local para teste em desenvolvimento"
+    },
+    {
+      "url": "http://aindanaoexiste.com/api/v1",
+      "description": "API em produção"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User",
+      "description": "Everything about your User",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://hackmd.io/@senseup/minisense-spec/%2FvXh82V3QQlasq4HBqzbYtQ"
+      }
+    },
+    {
+      "name": "SensorDevice",
+      "description": "Everything about your SensorDevice",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://hackmd.io/@senseup/minisense-spec/%2FvXh82V3QQlasq4HBqzbYtQ"
+      }
+    },
+    {
+      "name": "DataStream",
+      "description": "Everything about your DataStream",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://hackmd.io/@senseup/minisense-spec/%2FvXh82V3QQlasq4HBqzbYtQ"
+      }
+    },
+    {
+      "name": "SensorData",
+      "description": "Everything about your SensorData",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://hackmd.io/@senseup/minisense-spec/%2FvXh82V3QQlasq4HBqzbYtQ"
+      }
+    },
+    {
+      "name": "MeasurementUnit",
+      "description": "Everything about your MeasurementUnit",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://hackmd.io/@senseup/minisense-spec/%2FvXh82V3QQlasq4HBqzbYtQ"
+      }
+    }
+  ],
+  "paths": {
+    "/User": {
+      "get": {
+        "summary": "For get all User resgisters",
+        "description": "This is the route for get all User resgisters",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema":{
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "For new User",
+        "description": "This is the route for create new User",
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "UserPost": {
+                  "value": {
+                    "username": "Halysson Freitas",
+                    "email": "halyssonfreitas@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema":{
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "For update User",
+        "description": "This is the route for update an User exist register",
+        "tags": [
+          "User"
+        ]
+      },
+      "delete": {
+        "summary": "For delete User",
+        "description": "This is the route for delete an User exist register",
+        "tags": [
+          "User"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "SensorDevices": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "examples": {
+      "UserPost": {
+        "value": {
+          "username": "Halysson Freitas",
+          "email": "halyssonfreitas@gmail.com",
+          "SensorDevices": [
+            "303030",
+            "404040"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -8,13 +8,28 @@ const MeasurementUnitController_1 = require("./controllers/MeasurementUnitContro
 const SensorDataController_1 = require("./controllers/SensorDataController");
 const SensorDeviceController_1 = require("./controllers/SensorDeviceController");
 const UserController_1 = require("./controllers/UserController");
+// import swaggerUi from 'swagger-ui-express'; // Não funciona
+// import swaggerDocument from './swagger.json' // Não funciona
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 class StartUp {
     //digita ctor e enter
     constructor() {
         this.app = express();
         this.connection();
         this.middler();
+        /* // Para testar
+        this.app.use((req, res, next) => {
+            //Qual site tem permissão de realizar a conexão, no exemplo abaixo está o "*" indicando que qualquer site pode fazer a conexão
+            res.header("Access-Control-Allow-Origin", "*");
+            //Quais são os métodos que a conexão pode realizar na API
+            res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+            this.app.use(cors());
+            next();
+        })
+        */
         this.routes();
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     }
     middler() {
         this.app.use(bodyParser.json());
@@ -25,13 +40,6 @@ class StartUp {
         this.app.route('/').get((req, res) => {
             res.send({ versao: '0.0.1' });
         });
-        /*
-        this.app.route('/api/v1/news').get(NewsController.get)
-        this.app.route('/api/v1/news/:id').get(NewsController.getById)
-        this.app.route('/api/v1/news').post(NewsController.create)
-        this.app.route('/api/v1/news/:id').put(NewsController.update)
-        this.app.route('/api/v1/news/:id').delete(NewsController.delete)
-        */
         this.app.route('/api/v1/DataStream').get(DataStreamController_1.default.get);
         this.app.route('/api/v1/DataStream/:id').get(DataStreamController_1.default.getById);
         this.app.route('/api/v1/DataStream').post(DataStreamController_1.default.create);
