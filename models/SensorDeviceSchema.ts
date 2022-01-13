@@ -3,8 +3,14 @@ import * as mongoose from "mongoose"
 const Schema = mongoose.Schema
 
 const SensorDeviceSchema = new Schema({
-    key: { type: String },
-    label: { type: String },
+    key: { 
+        type: String,
+        require: true,
+    },
+    label: { 
+        type: String,
+        require: true,
+    },
     description: { type: String },
     User: {
         type: mongoose.Schema.Types.ObjectId,

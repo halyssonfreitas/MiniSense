@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const HttpStatus = require("http-status");
 const DataStreamService_1 = require("../services/DataStreamService");
-const SensorDeviceService_1 = require("../services/SensorDeviceService");
 const Helper_1 = require("../infra/Helper");
 class DataStreamController {
     get(req, res) {
@@ -27,20 +26,14 @@ class DataStreamController {
     }
     create(req, res) {
         let ds = req.body;
-        let id = req.body.SensorDevice;
         DataStreamService_1.default.create(ds)
-            // TO-DO refazer retornando o id da news
             .then((ds) => __awaiter(this, void 0, void 0, function* () {
-            let sd = yield SensorDeviceService_1.default.getById(id);
-            // sdds - Adivindo de SensorDeviceService a lista de DataStream
-            let sdds = [ds._id.toString()];
-            sd.DataStreams.map((x) => __awaiter(this, void 0, void 0, function* () {
-                sdds.push(x.toString());
-            }));
-            yield SensorDeviceService_1.default.update(id, { DataStreams: sdds });
-            yield Helper_1.default.sendResponse(res, HttpStatus.OK, "Notícia cadastrada com sucesso!");
+            yield Helper_1.default.sendResponse(res, HttpStatus.OK, ds);
         }))
-            .catch(error => console.error.bind(console, `NewsController - create() : ${error}`));
+            .catch(error => {
+            console.log(`DataStream - create() : ${error}`);
+            Helper_1.default.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
+        });
     }
     update(req, res) {
         const _id = req.params.id;
