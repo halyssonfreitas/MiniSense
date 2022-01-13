@@ -17,6 +17,7 @@
     "express": "^4.17.2",
     "http-status": "^1.5.0",
     "mongoose": "^6.1.6",
+    "swagger-ui-express": "^4.3.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
   },
