@@ -19,14 +19,14 @@ class UserController {
         .catch(error => console.error.bind(console, `NewsController - get() : ${error}`))
     }
     create(req, res) {
-        let news = req.body;
+        let user = req.body;
 
-        console.log("UserController - create() : " + news)
-
-        UserService.create(news)
-        // TO-DO refazer retornando o id da news
-        .then(() => Helper.sendResponse(res, HttpStatus.OK, "Notícia cadastrada com sucesso!"))
-        .catch(error => console.error.bind(console, `NewsController - create() : ${error}`))
+        UserService.create(user)
+        .then(user => Helper.sendResponse(res, HttpStatus.OK, user))
+        .catch(error => {
+            console.log(`User - create() : ${error}`)
+            Helper.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
+        })
     }
     update(req, res) {
         const _id = req.params.id

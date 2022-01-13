@@ -1,8 +1,19 @@
 import MeasurementUnitRepository from "../repository/MeasurementUnitRepository";
 
 class MeasurementUnitService {
-    get() {
-        return MeasurementUnitRepository.find({});
+    async get() {
+        let measurementUnitList = await MeasurementUnitRepository.find({});
+        let mul = []
+        measurementUnitList.map(measurementUnit => {
+            let x = {
+                id: measurementUnit._id,
+                symbol: measurementUnit.symbol,
+                description: measurementUnit.description
+            }
+            mul.push(x)
+        })
+
+        return mul
     }
     getById(_id) {
         return MeasurementUnitRepository.findById(_id)

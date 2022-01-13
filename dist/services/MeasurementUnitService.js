@@ -12,7 +12,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const MeasurementUnitRepository_1 = require("../repository/MeasurementUnitRepository");
 class MeasurementUnitService {
     get() {
-        return MeasurementUnitRepository_1.default.find({});
+        return __awaiter(this, void 0, void 0, function* () {
+            let measurementUnitList = yield MeasurementUnitRepository_1.default.find({});
+            let mul = [];
+            measurementUnitList.map(measurementUnit => {
+                let x = {
+                    id: measurementUnit._id,
+                    symbol: measurementUnit.symbol,
+                    description: measurementUnit.description
+                };
+                mul.push(x);
+            });
+            return mul;
+        });
     }
     getById(_id) {
         return MeasurementUnitRepository_1.default.findById(_id);

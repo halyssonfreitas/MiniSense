@@ -16,12 +16,13 @@ class UserController {
             .catch(error => console.error.bind(console, `NewsController - get() : ${error}`));
     }
     create(req, res) {
-        let news = req.body;
-        console.log("UserController - create() : " + news);
-        UserService_1.default.create(news)
-            // TO-DO refazer retornando o id da news
-            .then(() => Helper_1.default.sendResponse(res, HttpStatus.OK, "Notícia cadastrada com sucesso!"))
-            .catch(error => console.error.bind(console, `NewsController - create() : ${error}`));
+        let user = req.body;
+        UserService_1.default.create(user)
+            .then(user => Helper_1.default.sendResponse(res, HttpStatus.OK, user))
+            .catch(error => {
+            console.log(`User - create() : ${error}`);
+            Helper_1.default.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
+        });
     }
     update(req, res) {
         const _id = req.params.id;
