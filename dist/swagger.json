@@ -272,6 +272,53 @@
         }
       }
     },
+    "/DataStream/{sensorDevice}": {
+      "post": {
+        "summary": "For new DataStream",
+        "description": "This is the route for create new DataStream. It needs to give a parameter that indicates a SensorDevice that it will own.",
+        "tags": [
+          "DataStream"
+        ],
+        "parameters": [
+          {
+            "name": "sensorDevice",
+            "in": "path",
+            "description": "SensorDevice id for your DataStream",
+            "require": "true"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataStreamRequest"
+              },
+              "examples": {
+                "UserPost": {
+                  "value": {
+                    "label": "temperature",
+                    "unitId": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/DataStreamResponseCreate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/DataStream/{id}": {
       "get": {
         "summary": "For get DataStream by Id",
@@ -542,6 +589,40 @@
           },
           "unitId": {
             "type": "string"
+          }
+        }
+      },
+      "DataStreamRequest": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "unitId": {
+            "type": "string"
+          }
+        }
+      },
+      "DataStreamResponseCreate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "unitId": {
+            "type": "string"
+          },
+          "deviceId": {
+            "type": "string"
+          },
+          "measurementCount": {
+            "type": "number"
           }
         }
       },
