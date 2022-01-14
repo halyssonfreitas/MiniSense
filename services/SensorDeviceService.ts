@@ -2,6 +2,7 @@ import { uuid } from 'uuidv4'
 
 import { ISensorDeviceDTO } from "../Interfaces/ISensorDeviceDTO";
 import SensorDeviceRepository from "../repository/SensorDeviceRepository";
+import DataStreamService from './DataStreamService';
 import UserService from "./UserService";
 
 class SensorDeviceService {
@@ -11,12 +12,44 @@ class SensorDeviceService {
     getById(_id) {
         return SensorDeviceRepository.findById(_id)
     }
+    async getByUser(user) {
+        let sensorDeviceListFull = await SensorDeviceRepository.find({}).populate(['DataStreams'])
+        let sensorDeviceListUser = []
+        sensorDeviceListFull.map(await async function (sensorDevice) {
+
+            if (sensorDevice.User.toString() === user) {
+                let dataStreamList = []
+                sensorDevice.DataStreams.map(dataStream => {
+                    let y = {
+                        id: dataStream._id,
+                        key: dataStream.key,
+                        label: dataStream.label,
+                        unitId: dataStream.MeasurementUnit,
+                        deviceId: dataStream.SensorDevice,
+                        measurementCount: dataStream.SensorDatas.length
+                    }
+                    dataStreamList.push(y)
+                })
+
+                let x = {
+                    id: sensorDevice._id,
+                    key: sensorDevice.key,
+                    label: sensorDevice.label,
+                    description: sensorDevice.description,
+                    streams: dataStreamList
+                }
+                sensorDeviceListUser.push(x)
+            }
+        })
+
+        return sensorDeviceListUser
+    }
     async create(sensorDeviceDTO: ISensorDeviceDTO) {
         sensorDeviceDTO.key = uuid()
 
         // pega o user que o SensorDevice se referência em seu cadastro
         let user = undefined
-        if  ((user = await UserService.getById(sensorDeviceDTO.User)) === null){
+        if ((user = await UserService.getById(sensorDeviceDTO.User)) === null) {
             throw new Error("User doens't exist!")
         }
 
@@ -39,7 +72,7 @@ class SensorDeviceService {
             "label": sensorDevice.label,
             "description": sensorDevice.description,
         }
-          
+
         return sd
 
     }

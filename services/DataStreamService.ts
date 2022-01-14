@@ -13,6 +13,20 @@ class DataStreamService {
     getById(_id) {
         return DataStreamRepository.findById(_id)
     }
+
+    async getByIds(listOfIds){
+        console.log("listOfIds : " + listOfIds)
+        let dataStreamList = []
+        listOfIds.map(dataStream => { 
+            var ds = this.getById(dataStream)
+            dataStreamList.push(ds)
+        })
+
+        console.log(dataStreamList)
+
+        return dataStreamList
+    }
+
     async create(dataStreamDTO: IDataStreamDTO) {
 
         let sd = undefined

@@ -19,10 +19,22 @@ class SensorDeviceController {
             .catch(error => console.error.bind(console, `NewsController - get() : ${error}`));
     }
     getById(req, res) {
-        const _id = req.params.id;
-        SensorDeviceService_1.default.getById(_id)
+        const id = req.params.id;
+        SensorDeviceService_1.default.getByUser(id)
+            .then(sd => Helper_1.default.sendResponse(res, HttpStatus.OK, sd))
+            .catch(error => {
+            console.log(`SensorDevice - getById() : ${error}`);
+            Helper_1.default.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
+        });
+    }
+    getByUser(req, res) {
+        const user = req.params.user;
+        SensorDeviceService_1.default.getByUser(user)
             .then(news => Helper_1.default.sendResponse(res, HttpStatus.OK, news))
-            .catch(error => console.error.bind(console, `NewsController - get() : ${error}`));
+            .catch(error => {
+            console.log(`SensorDevice - getById() : ${error}`);
+            Helper_1.default.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
+        });
     }
     create(req, res) {
         let sd = req.body;

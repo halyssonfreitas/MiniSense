@@ -20,6 +20,18 @@ class DataStreamService {
     getById(_id) {
         return DataStreamRepository_1.default.findById(_id);
     }
+    getByIds(listOfIds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("listOfIds : " + listOfIds);
+            let dataStreamList = [];
+            listOfIds.map(dataStream => {
+                var ds = this.getById(dataStream);
+                dataStreamList.push(ds);
+            });
+            console.log(dataStreamList);
+            return dataStreamList;
+        });
+    }
     create(dataStreamDTO) {
         return __awaiter(this, void 0, void 0, function* () {
             let sd = undefined;

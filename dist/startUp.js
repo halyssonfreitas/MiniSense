@@ -55,6 +55,7 @@ class StartUp {
         this.app.route('/api/v1/SensorData').post(SensorDataController_1.default.create);
         this.app.route('/api/v1/SensorData/:id').put(SensorDataController_1.default.update);
         this.app.route('/api/v1/SensorData/:id').delete(SensorDataController_1.default.delete);
+        this.app.route('/api/v1/SensorDevice/getByUser/:user').get(SensorDeviceController_1.default.getByUser);
         this.app.route('/api/v1/SensorDevice').get(SensorDeviceController_1.default.get);
         this.app.route('/api/v1/SensorDevice/:id').get(SensorDeviceController_1.default.getById);
         this.app.route('/api/v1/SensorDevice').post(SensorDeviceController_1.default.create);

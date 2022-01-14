@@ -19,6 +19,39 @@ class SensorDeviceService {
     getById(_id) {
         return SensorDeviceRepository_1.default.findById(_id);
     }
+    getByUser(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let sensorDeviceListFull = yield SensorDeviceRepository_1.default.find({}).populate(['DataStreams']);
+            let sensorDeviceListUser = [];
+            sensorDeviceListFull.map(yield function (sensorDevice) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    if (sensorDevice.User.toString() === user) {
+                        let dataStreamList = [];
+                        sensorDevice.DataStreams.map(dataStream => {
+                            let y = {
+                                id: dataStream._id,
+                                key: dataStream.key,
+                                label: dataStream.label,
+                                unitId: dataStream.MeasurementUnit,
+                                deviceId: dataStream.SensorDevice,
+                                measurementCount: dataStream.SensorDatas.length
+                            };
+                            dataStreamList.push(y);
+                        });
+                        let x = {
+                            id: sensorDevice._id,
+                            key: sensorDevice.key,
+                            label: sensorDevice.label,
+                            description: sensorDevice.description,
+                            streams: dataStreamList
+                        };
+                        sensorDeviceListUser.push(x);
+                    }
+                });
+            });
+            return sensorDeviceListUser;
+        });
+    }
     create(sensorDeviceDTO) {
         return __awaiter(this, void 0, void 0, function* () {
             sensorDeviceDTO.key = (0, uuidv4_1.uuid)();
