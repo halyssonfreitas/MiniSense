@@ -25,8 +25,9 @@ class DataStreamController {
     }
     create(req, res) {
         let ds = req.body;
+        let sd = req.params.sensorDevice
 
-        DataStreamService.create(ds)
+        DataStreamService.create(ds, sd)
         .then(async ds => {
             await Helper.sendResponse(res, HttpStatus.OK, ds)
         })

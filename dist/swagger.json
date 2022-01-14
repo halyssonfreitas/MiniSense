@@ -212,7 +212,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/SensorDeviceResponse"
+                  "$ref": "#/components/schemas/SensorDeviceResponseCreate"
                 }
               }
             }
@@ -242,9 +242,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": [
-                    "#/components/schemas/SensorDeviceResponse"
-                  ]
+                  "$ref": "#/components/schemas/SensorDeviceResponseList"
                 }
               }
             }
@@ -267,6 +265,36 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/MeasurementUnit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/DataStream/{id}": {
+      "get": {
+        "summary": "For get DataStream by Id",
+        "description": "This is the route for get DataStream by Id. It needs to give a parameter that indicates a Id that it will pull.",
+        "tags": [
+          "DataStream"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DataStream id for pull",
+            "require": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/DataStreamResponse"
                 }
               }
             }
@@ -365,6 +393,66 @@
           }
         }
       },
+      "SensorDeviceResponseList": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "streams": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "unitId": {
+                  "type": "string"
+                },
+                "deviceId": {
+                  "type": "string"
+                },
+                "measurementCount": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SensorDeviceResponseCreate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
       "MeasurementUnit": {
         "type": "object",
         "properties": {
@@ -376,6 +464,43 @@
           },
           "description": {
             "type": "string"
+          }
+        }
+      },
+      "DataStreamResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "unitId": {
+            "type": "string"
+          },
+          "deviceId": {
+            "type": "string"
+          },
+          "measurementCount": {
+            "type": "number"
+          },
+          "measurements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "timestamp": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }

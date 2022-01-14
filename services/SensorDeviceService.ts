@@ -10,6 +10,9 @@ class SensorDeviceService {
     get() {
         return SensorDeviceRepository.find({});
     }
+    getByIdSimple(_id) {
+        return SensorDeviceRepository.findById(_id)
+    }
     async getById(_id) {
         let sensorDevice = await SensorDeviceRepository.findById(_id).populate(['DataStreams'])
 

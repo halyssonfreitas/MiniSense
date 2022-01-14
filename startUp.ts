@@ -54,7 +54,7 @@ class StartUp {
 
         this.app.route('/api/v1/DataStream').get(DataStreamController.get)
         this.app.route('/api/v1/DataStream/:id').get(DataStreamController.getById)
-        this.app.route('/api/v1/DataStream').post(DataStreamController.create)
+        this.app.route('/api/v1/DataStream/:sensorDevice').post(DataStreamController.create)
         this.app.route('/api/v1/DataStream/:id').put(DataStreamController.update)
         this.app.route('/api/v1/DataStream/:id').delete(DataStreamController.delete)
 

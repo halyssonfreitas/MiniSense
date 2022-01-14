@@ -42,7 +42,7 @@ class StartUp {
         });
         this.app.route('/api/v1/DataStream').get(DataStreamController_1.default.get);
         this.app.route('/api/v1/DataStream/:id').get(DataStreamController_1.default.getById);
-        this.app.route('/api/v1/DataStream').post(DataStreamController_1.default.create);
+        this.app.route('/api/v1/DataStream/:sensorDevice').post(DataStreamController_1.default.create);
         this.app.route('/api/v1/DataStream/:id').put(DataStreamController_1.default.update);
         this.app.route('/api/v1/DataStream/:id').delete(DataStreamController_1.default.delete);
         this.app.route('/api/v1/MeasurementUnit').get(MeasurementUnitController_1.default.get);

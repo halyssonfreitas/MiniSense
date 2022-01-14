@@ -42,10 +42,10 @@ class DataStreamService {
     }
 
 
-    async create(dataStreamDTO: IDataStreamDTO) {
-
+    async create(dataStreamDTO: IDataStreamDTO, sensorDevice) {
+        dataStreamDTO.SensorDevice = sensorDevice
         let sd = undefined
-        if ((sd = await SensorDeviceService.getById(dataStreamDTO.SensorDevice)) === null) {
+        if ((sd = await SensorDeviceService.getByIdSimple(dataStreamDTO.SensorDevice)) === null) {
             throw new Error("SensorDevice doens't exist!")
         }
 
@@ -63,11 +63,12 @@ class DataStreamService {
             SensorDatas: [],
         })
 
+
         // sdds - Adivindo de SensorDeviceService a lista de DataStream
         let sdds = [dataStream._id.toString()]
-        sd.DataStreams.map(async x => {
-            sdds.push(x.toString())
-        })
+        for (let i=0; i < sd.DataStreams.length; i++) {
+            sdds.push(sd.DataStreams[i].toString())
+        }
         await SensorDeviceService.update(dataStreamDTO.SensorDevice, { DataStreams: sdds })
 
         const ds = {

@@ -17,6 +17,9 @@ class SensorDeviceService {
     get() {
         return SensorDeviceRepository_1.default.find({});
     }
+    getByIdSimple(_id) {
+        return SensorDeviceRepository_1.default.findById(_id);
+    }
     getById(_id) {
         return __awaiter(this, void 0, void 0, function* () {
             let sensorDevice = yield SensorDeviceRepository_1.default.findById(_id).populate(['DataStreams']);

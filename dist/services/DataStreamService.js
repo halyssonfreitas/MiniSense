@@ -44,10 +44,11 @@ class DataStreamService {
             return ds;
         });
     }
-    create(dataStreamDTO) {
+    create(dataStreamDTO, sensorDevice) {
         return __awaiter(this, void 0, void 0, function* () {
+            dataStreamDTO.SensorDevice = sensorDevice;
             let sd = undefined;
-            if ((sd = yield SensorDeviceService_1.default.getById(dataStreamDTO.SensorDevice)) === null) {
+            if ((sd = yield SensorDeviceService_1.default.getByIdSimple(dataStreamDTO.SensorDevice)) === null) {
                 throw new Error("SensorDevice doens't exist!");
             }
             let mu = undefined;
@@ -64,9 +65,9 @@ class DataStreamService {
             });
             // sdds - Adivindo de SensorDeviceService a lista de DataStream
             let sdds = [dataStream._id.toString()];
-            sd.DataStreams.map((x) => __awaiter(this, void 0, void 0, function* () {
-                sdds.push(x.toString());
-            }));
+            for (let i = 0; i < sd.DataStreams.length; i++) {
+                sdds.push(sd.DataStreams[i].toString());
+            }
             yield SensorDeviceService_1.default.update(dataStreamDTO.SensorDevice, { DataStreams: sdds });
             const ds = {
                 "id": dataStream._id,

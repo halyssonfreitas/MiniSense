@@ -29,7 +29,8 @@ class DataStreamController {
     }
     create(req, res) {
         let ds = req.body;
-        DataStreamService_1.default.create(ds)
+        let sd = req.params.sensorDevice;
+        DataStreamService_1.default.create(ds, sd)
             .then((ds) => __awaiter(this, void 0, void 0, function* () {
             yield Helper_1.default.sendResponse(res, HttpStatus.OK, ds);
         }))
