@@ -20,16 +20,28 @@ class DataStreamService {
     getById(_id) {
         return DataStreamRepository_1.default.findById(_id);
     }
-    getByIds(listOfIds) {
+    getByIdRoute(_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("listOfIds : " + listOfIds);
-            let dataStreamList = [];
-            listOfIds.map(dataStream => {
-                var ds = this.getById(dataStream);
-                dataStreamList.push(ds);
-            });
-            console.log(dataStreamList);
-            return dataStreamList;
+            let dataStream = yield DataStreamRepository_1.default.findById(_id).populate(['SensorDatas']);
+            let sensorDataList = [];
+            for (let i = 0; i < dataStream.SensorDatas.length; i++) {
+                let sensorData = dataStream.SensorDatas[i];
+                let x = {
+                    timestamp: sensorData.timestamp,
+                    value: sensorData.value
+                };
+                sensorDataList.push(x);
+            }
+            let ds = {
+                id: dataStream._id,
+                key: dataStream.key,
+                label: dataStream.label,
+                unitId: dataStream.MeasurementUnit,
+                deviceId: dataStream.SensorDevice,
+                measurementCount: dataStream.SensorDatas.length,
+                measurements: sensorDataList
+            };
+            return ds;
         });
     }
     create(dataStreamDTO) {

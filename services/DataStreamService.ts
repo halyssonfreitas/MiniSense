@@ -14,18 +14,33 @@ class DataStreamService {
         return DataStreamRepository.findById(_id)
     }
 
-    async getByIds(listOfIds){
-        console.log("listOfIds : " + listOfIds)
-        let dataStreamList = []
-        listOfIds.map(dataStream => { 
-            var ds = this.getById(dataStream)
-            dataStreamList.push(ds)
-        })
+    async getByIdRoute(_id) {
 
-        console.log(dataStreamList)
+        let dataStream = await DataStreamRepository.findById(_id).populate(['SensorDatas'])
 
-        return dataStreamList
+        let sensorDataList = []
+        for (let i = 0; i < dataStream.SensorDatas.length; i++) {
+            let sensorData = dataStream.SensorDatas[i]
+            let x = {
+                timestamp: sensorData.timestamp,
+                value: sensorData.value
+            }
+            sensorDataList.push(x)
+        }
+
+        let ds = {
+            id: dataStream._id,
+            key: dataStream.key,
+            label: dataStream.label,
+            unitId: dataStream.MeasurementUnit,
+            deviceId: dataStream.SensorDevice,
+            measurementCount: dataStream.SensorDatas.length,
+            measurements: sensorDataList
+        }
+
+        return ds
     }
+
 
     async create(dataStreamDTO: IDataStreamDTO) {
 
@@ -47,7 +62,7 @@ class DataStreamService {
             MeasurementUnit: dataStreamDTO.unitId,
             SensorDatas: [],
         })
-        
+
         // sdds - Adivindo de SensorDeviceService a lista de DataStream
         let sdds = [dataStream._id.toString()]
         sd.DataStreams.map(async x => {
