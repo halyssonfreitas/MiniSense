@@ -87,12 +87,13 @@ class SensorDeviceService {
 
         return sensorDeviceListUser
     }
-    async create(sensorDeviceDTO: ISensorDeviceDTO) {
+    async create(sensorDeviceDTO: ISensorDeviceDTO, userP) {
         sensorDeviceDTO.key = uuid()
+        sensorDeviceDTO.User = userP
 
         // pega o user que o SensorDevice se referência em seu cadastro
         let user = undefined
-        if ((user = await UserService.getById(sensorDeviceDTO.User)) === null) {
+        if ((user = await UserService.getById(userP)) === null) {
             throw new Error("User doens't exist!")
         }
 
@@ -107,13 +108,13 @@ class SensorDeviceService {
         })
         //console.log(usd)
         // seta o novo array dentro do user
-        await UserService.update(sensorDeviceDTO.User, { SensorDevices: usd })
+        await UserService.update(userP, { SensorDevices: usd })
 
         const sd = {
-            "id": sensorDevice._id,
-            "key": sensorDevice.key,
-            "label": sensorDevice.label,
-            "description": sensorDevice.description,
+            id: sensorDevice._id,
+            key: sensorDevice.key,
+            label: sensorDevice.label,
+            description: sensorDevice.description,
         }
 
         return sd

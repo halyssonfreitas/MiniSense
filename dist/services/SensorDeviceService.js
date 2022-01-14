@@ -94,12 +94,13 @@ class SensorDeviceService {
             return sensorDeviceListUser;
         });
     }
-    create(sensorDeviceDTO) {
+    create(sensorDeviceDTO, userP) {
         return __awaiter(this, void 0, void 0, function* () {
             sensorDeviceDTO.key = (0, uuidv4_1.uuid)();
+            sensorDeviceDTO.User = userP;
             // pega o user que o SensorDevice se referência em seu cadastro
             let user = undefined;
-            if ((user = yield UserService_1.default.getById(sensorDeviceDTO.User)) === null) {
+            if ((user = yield UserService_1.default.getById(userP)) === null) {
                 throw new Error("User doens't exist!");
             }
             const sensorDevice = yield SensorDeviceRepository_1.default.create(sensorDeviceDTO);
@@ -112,12 +113,12 @@ class SensorDeviceService {
             });
             //console.log(usd)
             // seta o novo array dentro do user
-            yield UserService_1.default.update(sensorDeviceDTO.User, { SensorDevices: usd });
+            yield UserService_1.default.update(userP, { SensorDevices: usd });
             const sd = {
-                "id": sensorDevice._id,
-                "key": sensorDevice.key,
-                "label": sensorDevice.label,
-                "description": sensorDevice.description,
+                id: sensorDevice._id,
+                key: sensorDevice.key,
+                label: sensorDevice.label,
+                description: sensorDevice.description,
             };
             return sd;
         });

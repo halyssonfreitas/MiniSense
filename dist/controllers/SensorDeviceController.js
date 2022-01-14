@@ -30,15 +30,16 @@ class SensorDeviceController {
     getByUser(req, res) {
         const user = req.params.user;
         SensorDeviceService_1.default.getByUser(user)
-            .then(news => Helper_1.default.sendResponse(res, HttpStatus.OK, news))
+            .then(sd => Helper_1.default.sendResponse(res, HttpStatus.OK, sd))
             .catch(error => {
-            console.log(`SensorDevice - getById() : ${error}`);
+            console.log(`SensorDeviceController - getByUser() : ${error}`);
             Helper_1.default.sendResponse(res, HttpStatus.OK, { "error": `${error}` });
         });
     }
     create(req, res) {
         let sd = req.body;
-        SensorDeviceService_1.default.create(sd)
+        let user = req.params.user;
+        SensorDeviceService_1.default.create(sd, user)
             .then(function (sd) {
             return __awaiter(this, void 0, void 0, function* () {
                 yield Helper_1.default.sendResponse(res, HttpStatus.OK, sd);

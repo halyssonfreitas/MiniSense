@@ -82,7 +82,7 @@
             "description": "OK",
             "content": {
               "application/json": {
-                "schema":{
+                "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/User"
                 }
@@ -119,7 +119,7 @@
             "description": "OK",
             "content": {
               "application/json": {
-                "schema":{
+                "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/User"
                 }
@@ -129,18 +129,95 @@
         }
       },
       "put": {
-        "summary": "For update User",
+        "summary": "For update User - -----> Not implemented <-----",
         "description": "This is the route for update an User exist register",
         "tags": [
           "User"
         ]
       },
       "delete": {
-        "summary": "For delete User",
+        "summary": "For delete User  - -----> Not implemented <-----",
         "description": "This is the route for delete an User exist register",
         "tags": [
           "User"
         ]
+      }
+    },
+    "/SensorDevice/{user}": {
+      "post": {
+        "summary": "For new SensorDevice - -----> In edition <-----",
+        "description": "This is the route for create new SensorDevice. It needs to give a parameter that indicates a User that it will own.",
+        "tags": [
+          "SensorDevice"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "User id for your SensorDevice",
+            "require": "true"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SensorDeviceRequest"
+              },
+              "examples": {
+                "UserPost": {
+                  "value": {
+                    "label": "Kitchen's freezer sensor (Arduino)",
+                    "description": "Kitchen's freezer sensor (Arduino)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/SensorDeviceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/SensorDevice/getByUser/{user}": {
+      "get": {
+        "summary": "For get all SensorDevice that is User owned",
+        "description": "For get all SensorDevice that is User owned, by passing User id as parameter.",
+        "tags": [
+          "SensorDevice"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "User id for search yours SensorDevice",
+            "require": "true"
+          }
+        ],
+        "responses": {
+          "200" :{
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": ["#/components/schemas/SensorDeviceResponse"]
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -162,6 +239,34 @@
             }
           },
           "_id": {
+            "type": "string"
+          }
+        }
+      },
+      "SensorDeviceRequest": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "SensorDeviceResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
             "type": "string"
           }
         }
