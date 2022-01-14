@@ -26,7 +26,8 @@ class SensorDataController {
     }
     create(req, res) {
         let sd = req.body;
-        SensorDataService_1.default.create(sd)
+        let ds = req.params.dataStrem;
+        SensorDataService_1.default.create(sd, ds)
             .then((sd) => __awaiter(this, void 0, void 0, function* () {
             yield Helper_1.default.sendResponse(res, HttpStatus.OK, sd);
         }))

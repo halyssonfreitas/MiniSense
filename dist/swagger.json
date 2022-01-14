@@ -301,6 +301,53 @@
           }
         }
       }
+    },
+    "/SensorData/{dataStream}": {
+      "post": {
+        "summary": "For new SensorData",
+        "description": "This is the route for create new SensorData. It needs to give a parameter that indicates a DataStream that it will own.",
+        "tags": [
+          "SensorData"
+        ],
+        "parameters": [
+          {
+            "name": "dataStream",
+            "in": "path",
+            "description": "DataStream id for your SensorData",
+            "require": "true"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SensorDataRequest"
+              },
+              "examples": {
+                "UserPost": {
+                  "value": {
+                    "timestamp": "1506521102",
+                    "value": 28.5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/SensorDataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -454,15 +501,46 @@
         }
       },
       "MeasurementUnit": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "symbol": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SensorDataRequest": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      },
+      "SensorDataResponse": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string"
           },
-          "symbol": {
+          "timestamp": {
             "type": "string"
           },
-          "description": {
+          "value": {
+            "type": "number"
+          },
+          "unitId": {
             "type": "string"
           }
         }

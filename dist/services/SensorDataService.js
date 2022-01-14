@@ -18,8 +18,9 @@ class SensorDataService {
     getById(_id) {
         return SensorDataRepository_1.default.findById(_id);
     }
-    create(sensorDataDTO) {
+    create(sensorDataDTO, dataStream) {
         return __awaiter(this, void 0, void 0, function* () {
+            sensorDataDTO.DataStream = dataStream;
             let ds = undefined;
             //console.log(sensorDataDTO)
             if ((ds = yield DataStreamService_1.default.getById(sensorDataDTO.DataStream)) === null) {

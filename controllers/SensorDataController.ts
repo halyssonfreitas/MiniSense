@@ -21,8 +21,9 @@ class SensorDataController {
     }
     create(req, res) {
         let sd = req.body;
+        let ds = req.params.dataStrem
 
-        SensorDataService.create(sd)
+        SensorDataService.create(sd, ds)
         .then( async sd => {
             await Helper.sendResponse(res, HttpStatus.OK, sd)
         })

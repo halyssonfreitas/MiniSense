@@ -66,7 +66,7 @@ class StartUp {
 
         this.app.route('/api/v1/SensorData').get(SensorDataController.get)
         this.app.route('/api/v1/SensorData/:id').get(SensorDataController.getById)
-        this.app.route('/api/v1/SensorData').post(SensorDataController.create)
+        this.app.route('/api/v1/SensorData/:dataStrem').post(SensorDataController.create)
         this.app.route('/api/v1/SensorData/:id').put(SensorDataController.update)
         this.app.route('/api/v1/SensorData/:id').delete(SensorDataController.delete)
 

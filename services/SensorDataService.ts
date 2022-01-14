@@ -9,7 +9,8 @@ class SensorDataService {
     getById(_id) {
         return SensorDataRepository.findById(_id)
     }
-    async create(sensorDataDTO: ISensorDataDTO) {
+    async create(sensorDataDTO: ISensorDataDTO, dataStream) {
+        sensorDataDTO.DataStream = dataStream
         let ds = undefined
         //console.log(sensorDataDTO)
         if ((ds = await DataStreamService.getById(sensorDataDTO.DataStream)) === null){
