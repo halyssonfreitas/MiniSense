@@ -15,8 +15,9 @@ class SensorDeviceService {
     async getByUser(user) {
         let sensorDeviceListFull = await SensorDeviceRepository.find({}).populate(['DataStreams'])
         let sensorDeviceListUser = []
-        sensorDeviceListFull.map(await async function (sensorDevice) {
 
+        for (let i=0; i < sensorDeviceListFull.length; i++){
+            let sensorDevice = sensorDeviceListFull[i]
             if (sensorDevice.User.toString() === user) {
                 let dataStreamList = []
                 sensorDevice.DataStreams.map(dataStream => {
@@ -40,7 +41,7 @@ class SensorDeviceService {
                 }
                 sensorDeviceListUser.push(x)
             }
-        })
+        }
 
         return sensorDeviceListUser
     }
