@@ -143,9 +143,39 @@
         ]
       }
     },
+    "/SensorDevice/{id}": {
+      "get": {
+        "summary": "For get SensorDevice by Id",
+        "description": "This is the route for get SensorDevice by Id. It needs to give a parameter that indicates a Id that it will pull.",
+        "tags": [
+          "SensorDevice"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "SensorDevice id for pull",
+            "require": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/SensorDeviceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/SensorDevice/{user}": {
       "post": {
-        "summary": "For new SensorDevice - -----> In edition <-----",
+        "summary": "For new SensorDevice",
         "description": "This is the route for create new SensorDevice. It needs to give a parameter that indicates a User that it will own.",
         "tags": [
           "SensorDevice"
@@ -206,13 +236,37 @@
           }
         ],
         "responses": {
-          "200" :{
+          "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": ["#/components/schemas/SensorDeviceResponse"]
+                  "$ref": [
+                    "#/components/schemas/SensorDeviceResponse"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MeasurementUnit": {
+      "get": {
+        "summary": "For get all User resgisters",
+        "description": "This is the route for get all User resgisters",
+        "tags": [
+          "MeasurementUnit"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/MeasurementUnit"
                 }
               }
             }
@@ -264,6 +318,60 @@
             "type": "string"
           },
           "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "streams": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "unitId": {
+                  "type": "string"
+                },
+                "deviceId": {
+                  "type": "string"
+                },
+                "measurementCount": {
+                  "type": "number"
+                },
+                "measurements": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "MeasurementUnit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "symbol": {
             "type": "string"
           },
           "description": {
