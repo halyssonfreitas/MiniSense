@@ -21,7 +21,7 @@ class SensorDataService {
     create(sensorDataDTO) {
         return __awaiter(this, void 0, void 0, function* () {
             let ds = undefined;
-            console.log(sensorDataDTO);
+            //console.log(sensorDataDTO)
             if ((ds = yield DataStreamService_1.default.getById(sensorDataDTO.DataStream)) === null) {
                 throw new Error("DataStream doens't exist!");
             }
@@ -37,7 +37,7 @@ class SensorDataService {
                 dssd.push(x.toString());
             }));
             yield DataStreamService_1.default.update(sensorDataDTO.DataStream, { SensorDatas: dssd });
-            console.log("SensorDataService - create()");
+            //console.log("SensorDataService - create()")
             const sd = {
                 "id": sensorData._id,
                 "timestamp": sensorData.timestamp,

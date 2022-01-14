@@ -17,12 +17,13 @@ class SensorDeviceService {
         for (let i = 0; i < sensorDevice.DataStreams.length; i++) {
             let dataStream = sensorDevice.DataStreams[i]
 
-            
+
             let sensorDataList = []
-            for (let j = 0; j < dataStream.SensorDatas.length; j++) {
+            let tam = null
+            if (dataStream.SensorDatas.length > 5) { tam = 5 } else { tam = dataStream.SensorDatas.length }
+            for (let j = 0; j < tam; j++) {
                 let sensorDataId = dataStream.SensorDatas[j].toString()
                 let sensorData = await SensorDataService.getById(sensorDataId)
-                console.log("sensorData  : " + sensorData)
                 let y = {
                     timestamp: sensorData.timestamp,
                     value: sensorData.value

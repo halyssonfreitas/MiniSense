@@ -11,7 +11,7 @@ class SensorDataService {
     }
     async create(sensorDataDTO: ISensorDataDTO) {
         let ds = undefined
-        console.log(sensorDataDTO)
+        //console.log(sensorDataDTO)
         if ((ds = await DataStreamService.getById(sensorDataDTO.DataStream)) === null){
             throw new Error("DataStream doens't exist!")
         }
@@ -29,7 +29,7 @@ class SensorDataService {
         })
         
         await DataStreamService.update(sensorDataDTO.DataStream, { SensorDatas: dssd })
-        console.log("SensorDataService - create()")
+        //console.log("SensorDataService - create()")
 
         const sd = {
             "id": sensorData._id,
