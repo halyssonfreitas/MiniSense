@@ -20,7 +20,7 @@ class SensorDeviceController {
     }
     getById(req, res) {
         const id = req.params.id;
-        SensorDeviceService_1.default.getByUser(id)
+        SensorDeviceService_1.default.getById(id)
             .then(sd => Helper_1.default.sendResponse(res, HttpStatus.OK, sd))
             .catch(error => {
             console.log(`SensorDevice - getById() : ${error}`);

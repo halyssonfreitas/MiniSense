@@ -16,7 +16,7 @@ class SensorDeviceController {
     }
     getById(req, res) {
         const id = req.params.id;
-        SensorDeviceService.getByUser(id)
+        SensorDeviceService.getById(id)
             .then(sd => Helper.sendResponse(res, HttpStatus.OK, sd))
             .catch(error => {
                 console.log(`SensorDevice - getById() : ${error}`)

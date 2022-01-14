@@ -11,13 +11,49 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const uuidv4_1 = require("uuidv4");
 const SensorDeviceRepository_1 = require("../repository/SensorDeviceRepository");
+const SensorDataService_1 = require("./SensorDataService");
 const UserService_1 = require("./UserService");
 class SensorDeviceService {
     get() {
         return SensorDeviceRepository_1.default.find({});
     }
     getById(_id) {
-        return SensorDeviceRepository_1.default.findById(_id);
+        return __awaiter(this, void 0, void 0, function* () {
+            let sensorDevice = yield SensorDeviceRepository_1.default.findById(_id).populate(['DataStreams']);
+            let dataStreamList = [];
+            for (let i = 0; i < sensorDevice.DataStreams.length; i++) {
+                let dataStream = sensorDevice.DataStreams[i];
+                let sensorDataList = [];
+                for (let j = 0; j < dataStream.SensorDatas.length; j++) {
+                    let sensorDataId = dataStream.SensorDatas[j].toString();
+                    let sensorData = yield SensorDataService_1.default.getById(sensorDataId);
+                    console.log("sensorData  : " + sensorData);
+                    let y = {
+                        timestamp: sensorData.timestamp,
+                        value: sensorData.value
+                    };
+                    sensorDataList.push(y);
+                }
+                let x = {
+                    id: dataStream._id,
+                    key: dataStream.key,
+                    label: dataStream.label,
+                    unitId: dataStream.MeasurementUnit,
+                    deviceId: dataStream.SensorDevice,
+                    measurementCount: dataStream.SensorDatas.length,
+                    measurements: sensorDataList
+                };
+                dataStreamList.push(x);
+            }
+            let sd = {
+                id: sensorDevice._id,
+                key: sensorDevice.key,
+                label: sensorDevice.label,
+                description: sensorDevice.description,
+                streams: dataStreamList
+            };
+            return sd;
+        });
     }
     getByUser(user) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -27,7 +63,8 @@ class SensorDeviceService {
                 let sensorDevice = sensorDeviceListFull[i];
                 if (sensorDevice.User.toString() === user) {
                     let dataStreamList = [];
-                    sensorDevice.DataStreams.map(dataStream => {
+                    for (let i = 0; i < sensorDevice.DataStreams.length; i++) {
+                        let dataStream = sensorDevice.DataStreams[i];
                         let y = {
                             id: dataStream._id,
                             key: dataStream.key,
@@ -37,7 +74,7 @@ class SensorDeviceService {
                             measurementCount: dataStream.SensorDatas.length
                         };
                         dataStreamList.push(y);
-                    });
+                    }
                     let x = {
                         id: sensorDevice._id,
                         key: sensorDevice.key,

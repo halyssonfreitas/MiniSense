@@ -3,24 +3,65 @@ import { uuid } from 'uuidv4'
 import { ISensorDeviceDTO } from "../Interfaces/ISensorDeviceDTO";
 import SensorDeviceRepository from "../repository/SensorDeviceRepository";
 import DataStreamService from './DataStreamService';
+import SensorDataService from './SensorDataService';
 import UserService from "./UserService";
 
 class SensorDeviceService {
     get() {
         return SensorDeviceRepository.find({});
     }
-    getById(_id) {
-        return SensorDeviceRepository.findById(_id)
+    async getById(_id) {
+        let sensorDevice = await SensorDeviceRepository.findById(_id).populate(['DataStreams'])
+
+        let dataStreamList = []
+        for (let i = 0; i < sensorDevice.DataStreams.length; i++) {
+            let dataStream = sensorDevice.DataStreams[i]
+
+            
+            let sensorDataList = []
+            for (let j = 0; j < dataStream.SensorDatas.length; j++) {
+                let sensorDataId = dataStream.SensorDatas[j].toString()
+                let sensorData = await SensorDataService.getById(sensorDataId)
+                console.log("sensorData  : " + sensorData)
+                let y = {
+                    timestamp: sensorData.timestamp,
+                    value: sensorData.value
+                }
+                sensorDataList.push(y)
+            }
+
+            let x = {
+                id: dataStream._id,
+                key: dataStream.key,
+                label: dataStream.label,
+                unitId: dataStream.MeasurementUnit,
+                deviceId: dataStream.SensorDevice,
+                measurementCount: dataStream.SensorDatas.length,
+                measurements: sensorDataList
+            }
+            dataStreamList.push(x)
+        }
+
+        let sd = {
+            id: sensorDevice._id,
+            key: sensorDevice.key,
+            label: sensorDevice.label,
+            description: sensorDevice.description,
+            streams: dataStreamList
+        }
+
+        return sd
     }
     async getByUser(user) {
         let sensorDeviceListFull = await SensorDeviceRepository.find({}).populate(['DataStreams'])
         let sensorDeviceListUser = []
 
-        for (let i=0; i < sensorDeviceListFull.length; i++){
+        for (let i = 0; i < sensorDeviceListFull.length; i++) {
             let sensorDevice = sensorDeviceListFull[i]
             if (sensorDevice.User.toString() === user) {
                 let dataStreamList = []
-                sensorDevice.DataStreams.map(dataStream => {
+                for (let i = 0; i < sensorDevice.DataStreams.length; i++) {
+                    let dataStream = sensorDevice.DataStreams[i]
                     let y = {
                         id: dataStream._id,
                         key: dataStream.key,
@@ -30,7 +71,7 @@ class SensorDeviceService {
                         measurementCount: dataStream.SensorDatas.length
                     }
                     dataStreamList.push(y)
-                })
+                }
 
                 let x = {
                     id: sensorDevice._id,
